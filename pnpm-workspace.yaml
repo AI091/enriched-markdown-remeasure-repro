@@ -1,0 +1,5 @@
+# The postinstall only downloads iOS math and highlighting assets; the Android reproduction does not need them.
+allowBuilds:
+  react-native-enriched-markdown: false
+patchedDependencies:
+  react-native-enriched-markdown@1.0.2: patches/react-native-enriched-markdown@1.0.2.patch

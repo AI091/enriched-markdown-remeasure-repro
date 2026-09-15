@@ -1,0 +1,38 @@
+diff --git a/android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownContainerShadowNode.h b/android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownContainerShadowNode.h
+--- a/android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownContainerShadowNode.h
++++ b/android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownContainerShadowNode.h
+@@ -19,6 +19,8 @@
+ 
+   MarkdownContainerShadowNode(ShadowNode const &sourceShadowNode, ShadowNodeFragment const &fragment)
+       : ConcreteViewShadowNode(sourceShadowNode, fragment) {
++    forceHeightRecalculationCounter_ =
++        static_cast<const MarkdownContainerShadowNode &>(sourceShadowNode).forceHeightRecalculationCounter_;
+     dirtyLayoutIfNeeded();
+   }
+ 
+@@ -35,6 +37,10 @@
+ 
+   Size measureContent(const LayoutContext &layoutContext, const LayoutConstraints &layoutConstraints) const override;
+ 
++protected:
++  bool shouldNewRevisionDirtyMeasurement(const ShadowNode &sourceShadowNode,
++                                         const ShadowNodeFragment &fragment) const override;
++
+ private:
+   int forceHeightRecalculationCounter_{0};
+   std::shared_ptr<MarkdownContainerMeasurementManager> measurementsManager_;
+diff --git a/android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownContainerShadowNode.cpp b/android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownContainerShadowNode.cpp
+--- a/android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownContainerShadowNode.cpp
++++ b/android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownContainerShadowNode.cpp
+@@ -22,6 +22,11 @@
+   }
+ }
+ 
++bool MarkdownContainerShadowNode::shouldNewRevisionDirtyMeasurement(const ShadowNode & /*sourceShadowNode*/,
++                                                                    const ShadowNodeFragment &fragment) const {
++  return fragment.props != nullptr;
++}
++
+ Size MarkdownContainerShadowNode::measureContent(const LayoutContext &layoutContext,
+                                                  const LayoutConstraints &layoutConstraints) const {
+   return measurementsManager_->measure(getSurfaceId(), getTag(), getConcreteProps(), layoutConstraints);

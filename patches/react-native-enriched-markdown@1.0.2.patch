@@ -1,0 +1,12 @@
+diff --git a/android/src/main/java/com/swmansion/enriched/markdown/EnrichedMarkdownManager.kt b/android/src/main/java/com/swmansion/enriched/markdown/EnrichedMarkdownManager.kt
+index 2db8cccfe7027ffb4493b92493e502fa05744106..aeb51498bca70329d05c65ed531a5f0f6ef776d6 100644
+--- a/android/src/main/java/com/swmansion/enriched/markdown/EnrichedMarkdownManager.kt
++++ b/android/src/main/java/com/swmansion/enriched/markdown/EnrichedMarkdownManager.kt
+@@ -298,6 +298,7 @@ class EnrichedMarkdownManager :
+     attachmentsPositions: FloatArray?,
+   ): Long {
+     val id = localData?.getInt("viewTag")
++    android.util.Log.d("ENRM_MEASURE", "tag=$id len=${props?.getString("markdown")?.length} w=$width hm=$heightMode h=$height")
+     return MeasurementStore.getMeasureById(context, id, width, height, heightMode, props, splitTableSegments = true)
+   }
+ 
